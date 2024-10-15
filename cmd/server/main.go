@@ -27,7 +27,7 @@ var (
 
 func main() {
 	flagSet = flag.NewFlagSet("deeptest", flag.ContinueOnError)
-	flagSet.StringVar(&consts.DatabaseType, "d", "mysql", "")
+	flagSet.StringVar(&consts.DatabaseType, "d", "sqlite", "")
 	flagSet.Parse(os.Args[1:])
 
 	viper_server.Init(database.GetViperConfig())
