@@ -14,21 +14,21 @@
           <img src="@/assets/images/chat-robot.png" />
         </div>
 
-        <div class="label">知识库</div>
-        <div class="contrl">
-          <div class="select-wrapper">
-            <select v-model="kb" class="select">
-              <option v-for="option in aiKbs" :key="option.kb_name" :value="option.kb_name">
-                {{ option.kb_name }}
-              </option>
-            </select>
-          </div>
-        </div>
+        <div class="label">ChatOPS</div>
+        <!--        <div class="contrl">
+                  <div class="select-wrapper">
+                    <select v-model="kb" class="select">
+                      <option v-for="option in aiKbs" :key="option.kb_name" :value="option.kb_name">
+                        {{ option.kb_name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
 
-        <div class="action dp-link"
-             @click="showOrNot">
-          <span class="close" />
-        </div>
+                <div class="action dp-link"
+                     @click="showOrNot">
+                  <span class="close" />
+                </div>-->
       </div>
 
       <div class="messages" id="chat-messages">
@@ -194,7 +194,7 @@ const send = async () => {
   scroll()
 
   const serverUrl = addSepIfNeeded(props.serverUrl)
-  const url = `${serverUrl}aichat/knowledge_base_chat`
+  const url = `${serverUrl}aichat/chat_completion`
   console.log('chat', url)
 
   const ctrl = new AbortController();

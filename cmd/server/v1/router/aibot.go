@@ -11,6 +11,7 @@ type AibotModule struct {
 
 func (m *AibotModule) Party() func(public iris.Party) {
 	return func(party iris.Party) {
+		party.Post("/chat_completion", m.AibotCtrl.ChatCompletion).Name = "聊天"
 		party.Post("/knowledge_base_chat", m.AibotCtrl.KnowledgeBaseChat).Name = "与知识库对话"
 
 		party.Get("/list_valid_model", m.AibotCtrl.ListValidModel).Name = "列出可用的大模型"

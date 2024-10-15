@@ -1,5 +1,15 @@
 package v1
 
+type ChatCompletionReq struct {
+	Model    string `json:"model"`
+	Messages []struct {
+		Role    string `json:"role"`
+		Content string `json:"content"`
+	} `json:"messages"`
+	Stream      interface{} `json:"stream"`
+	Temperature float64     `json:"temperature"`
+}
+
 type KnowledgeBaseChatReq struct {
 	KbName   string `json:"kb_name,omitempty"`
 	Model    string `json:"model"`

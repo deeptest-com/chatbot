@@ -18,6 +18,67 @@ import (
 type AibotService struct {
 }
 
+func (s *AibotService) ChatCompletion(req v1.ChatCompletionReq, flusher http.Flusher, ctx iris.Context) (ret _domain.PageData, err error) {
+	if len(req.Messages) > 0 && strings.TrimSpace(req.Messages[len(req.Messages)-1].Content) == "小深" {
+		str := s.genResp("您好，有什么可以帮助您的？")
+
+		ctx.Writef("%s\n\n", str)
+		flusher.Flush()
+		return
+	}
+
+	req.Model = "qwen2.5-coder:1.5b-instruct"
+
+	url := _http.AddSepIfNeeded(web.CONFIG.System.ChatchatUrl) + "chat/chat/completions"
+	bts, err := json.Marshal(req)
+
+	reader := bytes.NewReader(bts)
+	request, err := http.NewRequest("POST", url, reader)
+	if err != nil {
+		return
+	}
+
+	request.Header.Set("Cache-Control", "no-cache")
+	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Accept", "text/event-stream")
+	request.Header.Set("Connection", "keep-alive")
+
+	client := &http.Client{}
+	transport := &http.Transport{}
+	transport.DisableCompression = true
+	client.Transport = transport
+
+	resp, err := client.Do(request)
+	if err != nil {
+		return
+	}
+
+	r := bufio.NewReader(resp.Body)
+	defer resp.Body.Close()
+
+	for {
+		bytes, err1 := r.ReadBytes('\n')
+		str := string(bytes)
+
+		if err1 != nil && err1 != io.EOF {
+			err = err1
+			break
+		}
+		if err1 == io.EOF {
+			break
+		}
+
+		fmt.Println("\n>>>" + str + "\n")
+
+		// must with prefix "data:" for openai response
+		// must add a postfix "\n\n"
+		ctx.Writef("%s\n\n", str)
+		flusher.Flush()
+	}
+
+	return
+}
+
 func (s *AibotService) KnowledgeBaseChat(req v1.KnowledgeBaseChatReq, flusher http.Flusher, ctx iris.Context) (ret _domain.PageData, err error) {
 	if len(req.Messages) > 0 && strings.TrimSpace(req.Messages[len(req.Messages)-1].Content) == "小深" {
 		str := s.genResp("您好，有什么可以帮助您的？")

@@ -13,6 +13,27 @@ type AibotCtrl struct {
 	AibotService *service.AibotService `inject:""`
 }
 
+func (c *AibotCtrl) ChatCompletion(ctx iris.Context) {
+	flusher, ok := ctx.ResponseWriter().Flusher()
+	if !ok {
+		ctx.StopWithText(iris.StatusHTTPVersionNotSupported, "Streaming unsupported!")
+		return
+	}
+
+	ctx.ContentType("text/event-stream")
+	//ctx.Header("content-type", "text/event-stream")
+	ctx.Header("Cache-Control", "no-cache")
+
+	req := v1.ChatCompletionReq{}
+	err := ctx.ReadJSON(&req)
+	if err != nil {
+		ctx.JSON(_domain.Response{Code: _domain.SystemErr.Code, Msg: err.Error()})
+		return
+	}
+
+	c.AibotService.ChatCompletion(req, flusher, ctx)
+}
+
 func (c *AibotCtrl) KnowledgeBaseChat(ctx iris.Context) {
 	flusher, ok := ctx.ResponseWriter().Flusher()
 	if !ok {
