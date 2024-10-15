@@ -9,6 +9,7 @@ import (
 	"github.com/deeptest-com/deeptest-next/internal/pkg/serve/web"
 	_domain "github.com/deeptest-com/deeptest-next/pkg/domain"
 	_http "github.com/deeptest-com/deeptest-next/pkg/libs/http"
+	_logUtils "github.com/deeptest-com/deeptest-next/pkg/libs/log"
 	"github.com/kataras/iris/v12"
 	"io"
 	"net/http"
@@ -30,6 +31,7 @@ func (s *AibotService) ChatCompletion(req v1.ChatCompletionReq, flusher http.Flu
 	req.Model = "qwen2.5-coder:1.5b-instruct"
 
 	url := _http.AddSepIfNeeded(web.CONFIG.System.ChatchatUrl) + "chat/chat/completions"
+	_logUtils.Info("url=" + url)
 	bts, err := json.Marshal(req)
 
 	reader := bytes.NewReader(bts)
