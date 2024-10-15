@@ -200,7 +200,7 @@ const send = async () => {
   const ctrl = new AbortController();
 
   const data = {
-    "model": "glm4-chat",
+    "model": "qwen2.5-coder:7b-instruct",
     "messages": [
       {"role": "user", "content": "你好"},
       {"role": "assistant", "content": "你好，我是人工智能大模型"},

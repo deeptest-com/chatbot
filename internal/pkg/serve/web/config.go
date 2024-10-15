@@ -193,7 +193,8 @@ func getViperConfig() viper_server.ViperConfig {
 			"level": "` + CONFIG.System.Level + `",
 			"addr": "` + CONFIG.System.Addr + `",
 			"db-type": "` + CONFIG.System.DbType + `",
-			"time-format": "` + CONFIG.System.TimeFormat + `"
+			"time-format": "` + CONFIG.System.TimeFormat + `",
+    		"chatchat-url": "` + CONFIG.System.ChatchatUrl + `"
 		}
  }`),
 	}
