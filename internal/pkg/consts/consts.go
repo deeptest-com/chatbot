@@ -18,7 +18,7 @@ var (
 )
 
 var (
-	DatabaseType = "mysql"
+	DatabaseType = "sqlite"
 )
 
 var (
