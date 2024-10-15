@@ -33,7 +33,7 @@ var CONFIG = Web{
 		DbType:     "mysql",
 		TimeFormat: "2006-01-02 15:04:05",
 
-		ChatchatUrl: "http://127.0.0.1:7861/",
+		ChatchatUrl: "http://117.50.194.233:7861/",
 	},
 	Limit: Limit{
 		Disable: true,
