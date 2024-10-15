@@ -28,7 +28,7 @@ func (s *AibotService) ChatCompletion(req v1.ChatCompletionReq, flusher http.Flu
 		return
 	}
 
-	req.Model = "qwen2.5-coder:1.5b-instruct"
+	req.Model = "qwen2.5-coder:7b-instruct"
 
 	url := _http.AddSepIfNeeded(web.CONFIG.System.ChatchatUrl) + "chat/chat/completions"
 	_logUtils.Info("url=" + url)
