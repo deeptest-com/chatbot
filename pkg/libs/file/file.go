@@ -110,3 +110,18 @@ func AddSepIfNeeded(pth string) string {
 	}
 	return pth
 }
+
+func ReadFile(filePath string) string {
+	buf := ReadFileBuf(filePath)
+	str := string(buf)
+	return str
+}
+
+func ReadFileBuf(filePath string) []byte {
+	buf, err := os.ReadFile(filePath)
+	if err != nil {
+		return []byte(err.Error())
+	}
+
+	return buf
+}

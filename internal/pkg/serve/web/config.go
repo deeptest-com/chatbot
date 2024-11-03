@@ -91,6 +91,7 @@ type System struct {
 	TimeFormat   string `mapstructure:"time-format" json:"time-format" yaml:"time-format"`
 
 	ChatchatUrl string `mapstructure:"chatchat-url" json:"chatchat-url" yaml:"chatchat-url"`
+	LLmUrl      string `mapstructure:"llm-url" json:"llm-url" yaml:"llm-url"`
 }
 
 // SetDefaultAddrAndTimeFormat

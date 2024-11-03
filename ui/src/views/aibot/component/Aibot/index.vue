@@ -15,20 +15,6 @@
         </div>
 
         <div class="label">ChatOPS</div>
-        <!--        <div class="contrl">
-                  <div class="select-wrapper">
-                    <select v-model="kb" class="select">
-                      <option v-for="option in aiKbs" :key="option.kb_name" :value="option.kb_name">
-                        {{ option.kb_name }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="action dp-link"
-                     @click="showOrNot">
-                  <span class="close" />
-                </div>-->
       </div>
 
       <div class="messages" id="chat-messages">
@@ -215,6 +201,8 @@ const send = async () => {
     },
     "kb_name": kb.value,
   }
+
+  console.log('======', data)
 
   isChatting.value = true
   ctrl.abort()
