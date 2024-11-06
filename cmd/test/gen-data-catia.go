@@ -17,10 +17,23 @@ func main() {
 	flagSet.StringVar(&name, "n", "custom_catia.json", "")
 	flagSet.Parse(os.Args[1:])
 
-	number := 10
+	number := 7
 	mp := map[string][]string{
-		"materials":  {"CR240*", "[CR270LA]", "aluminium,不锈钢", "CR240*,[CR270LA]"},
-		"excel_path": {"D:\\Documents\\catiaVB\\TB.xlsx", "/home/aaron/excel_file.xlsx", "~/excel_file.xlsx", "~/excel.xlsx", "./excel.xlsx"},
+		"materials": {
+			"CR240*,[CR270LA]",
+			"CR240*,CR270LA",
+			"CR240*",
+			"[CR270LA]",
+			"aluminium,不锈钢",
+		},
+		"excel_path": {
+			"C:\\Users\\vs001683\\Desktop\\AI_PE5H9P6\\G68_Series_Underbody.xlsx",
+			"D:\\Documents\\catiaVB\\TB.xlsx",
+			"/home/aaron/excel_file.xlsx",
+			"~/excel_file.xlsx",
+			"~/excel.xlsx",
+			"./excel.xlsx",
+		},
 	}
 
 	workDir, _ := os.Getwd()
