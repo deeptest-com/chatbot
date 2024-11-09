@@ -2,7 +2,7 @@
   {
     "instruction": "高亮显示${excel_path}中${materials}材质的组件。",
     "input": "",
-    "output": "以下是不可分割的完整的代码:\n\n```Language=CATSCRIPT\nSub CATMain()\n        Dim ePh\n        ePh = \"${excel_path}\"\n        Dim mtls\n        mtls = \"${mtls}\"\n        If GetExcelAbsolutePath(ePh, \"CATIA_AI_Excel_Default_Path\") <> 0 Then\n            MsgBox \"Excel not Exists: \" & ePh\n            Exit Sub\n        End If\n        Dim PartNumberTitle\n        PartNumberTitle = \"Part number\"\n        Dim mapSearch\n        Set mapSearch = CreateObject(\"Scripting.Dictionary\")\n        Dim ret As Integer\n        ret = SplitStr(mtls, \",\", mapSearch)\n        Dim partNames As Object\n        Set partNames = CreateObject(\"Scripting.Dictionary\")\n        ReadExcel partNames, mapSearch, ePh, PartNumberTitle\n        Dim showChildComps As Object\n        Set showChildComps = CreateObject(\"System.Collections.ArrayList\")\n        Dim tspyChildComps As Object\n        Set tspyChildComps = CreateObject(\"System.Collections.ArrayList\")\n        Dim rootDoc As ProductDocument\n        Set rootDoc = CATIA.ActiveDocument\n        If rootDoc Is Nothing Then\n            Exit Sub\n        End If\n        If TypeName(rootDoc) <> \"ProductDocument\" Then\n            Exit Sub\n        End If\n        Dim rProduct As Product\n        Set rProduct = rootDoc.Product\n        Dim rProductChild As Product\n        Set rProductChild = rootDoc.Product\n        ret = GetChildren(rProduct, rProductChild, partNames, showChildComps, tspyChildComps, False)\n        ret = ChangeCompState(rProduct, showChildComps, 0, -1)\n        ret = ChangeCompState(rProduct, tspyChildComps, -1, 0)\nEnd Sub```"
+    "output": "以下是不可分割的完整代码:\n\n```Language=CATSCRIPT\nSub CATMain()\n        Dim ePh\n        ePh = \"${excel_path}\"\n        Dim mtls\n        mtls = \"${materials}\"\n        If GetExcelAbsolutePath(ePh, \"CATIA_AI_Excel_Default_Path\") <> 0 Then\n            MsgBox \"Excel not Exists: \" & ePh\n            Exit Sub\n        End If\n        Dim PartNumberTitle\n        PartNumberTitle = \"Part number\"\n        Dim mapSearch\n        Set mapSearch = CreateObject(\"Scripting.Dictionary\")\n        Dim ret As Integer\n        ret = SplitStr(mtls, \",\", mapSearch)\n        Dim partNames As Object\n        Set partNames = CreateObject(\"Scripting.Dictionary\")\n        ReadExcel partNames, mapSearch, ePh, PartNumberTitle\n        Dim showChildComps As Object\n        Set showChildComps = CreateObject(\"System.Collections.ArrayList\")\n        Dim tspyChildComps As Object\n        Set tspyChildComps = CreateObject(\"System.Collections.ArrayList\")\n        Dim rootDoc As ProductDocument\n        Set rootDoc = CATIA.ActiveDocument\n        If rootDoc Is Nothing Then\n            Exit Sub\n        End If\n        If TypeName(rootDoc) <> \"ProductDocument\" Then\n            Exit Sub\n        End If\n        Dim rProduct As Product\n        Set rProduct = rootDoc.Product\n        Dim rProductChild As Product\n        Set rProductChild = rootDoc.Product\n        ret = GetChildren(rProduct, rProductChild, partNames, showChildComps, tspyChildComps, False)\n        ret = ChangeCompState(rProduct, showChildComps, 0, -1)\n        ret = ChangeCompState(rProduct, tspyChildComps, -1, 0)\nEnd Sub```"
   },
   {
     "instruction": "高亮显示${materials}材质的组件, part number表格路径${excel_path}。",
@@ -32,6 +32,16 @@
   },
   {
     "instruction": "highlight  ${materials} material part in ${excel_path}.",
+    "input": "",
+    "output": ""
+  },
+  {
+    "instruction": "highlight show excel_file.xlsx ABC material part.",
+    "input": "",
+    "output": ""
+  },
+  {
+    "instruction": "highlight excel_file.xlsx CR240* material part.",
     "input": "",
     "output": ""
   }

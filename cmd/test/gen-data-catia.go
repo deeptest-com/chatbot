@@ -17,7 +17,7 @@ func main() {
 	flagSet.StringVar(&name, "n", "custom_catia.json", "")
 	flagSet.Parse(os.Args[1:])
 
-	number := 7
+	number := 35
 	mp := map[string][]string{
 		"materials": {
 			"CR240*,[CR270LA]",
@@ -31,7 +31,6 @@ func main() {
 			"D:\\Documents\\catiaVB\\TB.xlsx",
 			"/home/aaron/excel_file.xlsx",
 			"~/excel_file.xlsx",
-			"~/excel.xlsx",
 			"./excel.xlsx",
 		},
 	}
