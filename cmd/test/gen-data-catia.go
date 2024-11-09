@@ -28,10 +28,10 @@ func main() {
 		},
 		"excel_path": {
 			"C:\\Users\\vs001683\\Desktop\\AI_PE5H9P6\\G68_Series_Underbody.xlsx",
-			"D:\\Documents\\catiaVB\\TB.xlsx",
 			"/home/aaron/excel_file.xlsx",
 			"~/excel_file.xlsx",
 			"./excel.xlsx",
+			"excel_file.xlsx",
 		},
 	}
 

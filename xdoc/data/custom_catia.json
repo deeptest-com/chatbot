@@ -36,12 +36,12 @@
     "output": ""
   },
   {
-    "instruction": "highlight show excel_file.xlsx ABC material part.",
+    "instruction": "highlight show ${excel_path} ${materials} material part.",
     "input": "",
     "output": ""
   },
   {
-    "instruction": "highlight excel_file.xlsx CR240* material part.",
+    "instruction": "highlight ${excel_path} ${materials} material part.",
     "input": "",
     "output": ""
   }
