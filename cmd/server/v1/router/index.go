@@ -12,6 +12,7 @@ type IndexModule struct {
 	UserModule    *UserModule    `inject:""`
 
 	AibotModule *AibotModule `inject:""`
+	TcbotModule *TcbotModule `inject:""`
 }
 
 func NewIndexModule() *IndexModule {
@@ -27,5 +28,6 @@ func (m *IndexModule) ApiParty() func(rbac iris.Party) {
 		rbac.PartyFunc("/users", m.UserModule.Party())
 
 		rbac.PartyFunc("/aichat", m.AibotModule.Party())
+		rbac.PartyFunc("/tcchat", m.TcbotModule.Party())
 	}
 }

@@ -45,7 +45,7 @@ func main() {
 	)
 
 	if err != nil {
-		fmt.Printf("ChatCompletion error: %v\n", err)
+		fmt.Printf("CreatePart error: %v\n", err)
 		return
 	}
 

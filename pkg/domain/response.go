@@ -3,10 +3,10 @@ package _domain
 type Response struct {
 	Code int64 `json:"code"`
 
-	Msg    string `json:"msg"`
-	MsgKey string `json:"msgKey"` // show i118 msg on client side
+	Msg    string `json:"msg,omitempty"`
+	MsgKey string `json:"msgKey,omitempty"` // show i118 msg on client side
 
-	Data interface{} `json:"data"`
+	Data interface{} `json:"data,omitempty"`
 }
 
 type PageData struct {

@@ -17,7 +17,7 @@ func main() {
 	flagSet.StringVar(&name, "n", "custom_catia.json", "")
 	flagSet.Parse(os.Args[1:])
 
-	number := 35
+	number := 40
 	mp := map[string][]string{
 		"materials": {
 			"CR240*,[CR270LA]",

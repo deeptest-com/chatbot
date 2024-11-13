@@ -28,3 +28,27 @@ const (
 func (e CategoryDiscriminator) String() string {
 	return string(e)
 }
+
+// TC API
+type TcInstructionCategory string
+
+const (
+	TcCategoryInstruction   TcInstructionCategory = "instruction"
+	TcCategoryClarification TcInstructionCategory = "clarification"
+	TcCategoryUnknown       TcInstructionCategory = "unknown"
+)
+
+func (e TcInstructionCategory) String() string {
+	return string(e)
+}
+
+type TcInstructionType string
+
+const (
+	TcInstructionCreatePart TcInstructionType = "create_part"
+	TcInstructionUnknown    TcInstructionType = "unknown"
+)
+
+func (e TcInstructionType) String() string {
+	return string(e)
+}
