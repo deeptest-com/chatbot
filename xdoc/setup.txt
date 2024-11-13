@@ -7,4 +7,6 @@ git push -f github main:main
 
 nohup ./run.sh > runner.log 2>&1 &
 
+nohup go run cmd/server/main.go > run.log 2>&1 &
+
 nvm use v22.11.0
