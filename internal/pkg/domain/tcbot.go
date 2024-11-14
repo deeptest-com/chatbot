@@ -17,7 +17,7 @@ type InstructionStep struct {
 
 type NlpResult struct {
 	Instruction     consts.TcInstructionType `json:"instruct"`
-	NextInstruction consts.TcInstructionType `json:"nextInstruction"`
 	CurrStep        string                   `json:"currStep"`
+	NextInstruction consts.TcInstructionType `json:"nextInstruction"`
 	NextStep        string                   `json:"nextStep"`
 }

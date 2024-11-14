@@ -7,6 +7,7 @@ git push -f github main:main
 
 nohup ./run.sh > runner.log 2>&1 &
 
+lsof -i:9085 | grep '(LISTEN)' | awk '{print $2}' | sudo xargs --no-run-if-empty kill -9
 nohup go run cmd/server/main.go > run.log 2>&1 &
 
 nvm use v22.11.0
