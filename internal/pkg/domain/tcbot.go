@@ -6,7 +6,13 @@ type InstructionDef []InstructionItem
 
 type InstructionItem struct {
 	Name  consts.TcInstructionType `json:"name"`
-	Steps []string                 `json:"steps"`
+	Steps []InstructionStep        `json:"steps"`
+}
+
+type InstructionStep struct {
+	Name            string                   `json:"name"`
+	NextInstruction consts.TcInstructionType `json:"nextInstruction"`
+	NextStep        string                   `json:"nextStep"`
 }
 
 type NlpResult struct {

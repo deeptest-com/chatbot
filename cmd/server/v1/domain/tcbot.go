@@ -12,8 +12,11 @@ type TcNlpResp struct {
 	Category        consts.TcInstructionCategory `json:"category,omitempty"`
 	CurrInstruction consts.TcInstructionType     `json:"currInstruction,omitempty"`
 	CurrStep        string                       `json:"currStep,omitempty"`
-	NextStep        string                       `json:"nextStep,omitempty"`
-	Params          []TcNlpParam                 `json:"parameters,omitempty"`
+
+	NextInstruction consts.TcInstructionType `json:"nextInstruction,omitempty"`
+	NextStep        string                   `json:"nextStep,omitempty"`
+
+	Params []TcNlpParam `json:"parameters,omitempty"`
 }
 
 type TcNlpParam struct {

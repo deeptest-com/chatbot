@@ -27,7 +27,9 @@ func (s *TcbotService) CreatePart(req v1.TcNlpReq) (ret v1.TcNlpResp, err error)
 		CurrInstruction: nlpResult.Instruction,
 
 		CurrStep: nlpResult.CurrStep,
-		NextStep: nlpResult.NextStep,
+
+		NextInstruction: nlpResult.NextInstruction,
+		NextStep:        nlpResult.NextStep,
 
 		Params: nil,
 	}
@@ -40,17 +42,25 @@ func (s *TcbotService) GetNextStep(instruction consts.TcInstructionType, step st
 
 	instructionDef := s.GetInstructionDef()
 
-	for instructionIndex, instructionItem := range *instructionDef {
+	for _, instructionItem := range *instructionDef {
 		if instructionItem.Name == instruction {
-			if instructionIndex < len(*instructionDef)-1 {
-				nextInstruction = (*instructionDef)[instructionIndex+1].Name
-			}
+			nextInstruction = instruction // default is current instruction
 
 			for stepIndex, stepItem := range instructionItem.Steps {
-				if stepItem == step && stepIndex < len(instructionItem.Steps)-1 {
-					nextStep = instructionItem.Steps[stepIndex+1]
-					break
+				if stepItem.Name != step {
+					continue
 				}
+
+				if stepItem.NextInstruction != "" { // next step is set
+					nextInstruction = stepItem.NextInstruction
+					nextStep = stepItem.NextStep
+
+				} else if stepIndex < len(instructionItem.Steps)-1 { // use next step
+					nextStep = instructionItem.Steps[stepIndex+1].Name
+
+				}
+
+				break
 			}
 
 			break

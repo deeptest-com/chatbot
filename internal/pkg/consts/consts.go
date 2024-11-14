@@ -34,18 +34,149 @@ var (
 var (
 	InstructionDef = `
 [
-    {"name": "greetings", "steps": []},
-    {"name": "confirm", "steps": []},
-    
-    {"name": "create_part", "steps": ["init", "input_part_no", "input_part_name", "show_part_form"]},
-    {"name": "attach_material", "steps": ["init", "input_materials", "fill_material_form"]},
-    {"name": "attach_geometry", "steps": ["init", "input_geometry", "input_geometry_version", "input_design", "input_design_version", "input_drawing", "input_drawing_version"]},
-    {"name": "create_structure", "steps": ["init", "fill_st_form"]},
-    {"name": "assign_project", "steps": ["init", "input_project"]},
-    {"name": "data_check", "steps": ["init"]},
-    {"name": "freeze_structure", "steps": ["init", "freeze_confirm", "input_design", "input_drawing", "input_geometry_version"]},
-    {"name": "submit_structure", "steps": ["init", "submit_st_confirm", "fix_st"]},
-    {"name": "track_st", "steps": ["init"]}
+    {
+        "name": "greetings",
+        "steps": []
+    },
+    {
+        "name": "confirm",
+        "steps": []
+    },
+    {
+        "name": "create_part",
+        "steps":
+        [
+            {
+                "name": "init"
+            },
+            {
+                "name": "input_part_no"
+            },
+            {
+                "name": "input_part_name"
+            },
+            {
+                "name": "show_part_form",
+				"nextInstruction": "attach_material",
+				"nextStep": "init"
+            }
+        ]
+    },
+    {
+        "name": "attach_material",
+        "steps":
+        [
+            {
+                "name": "init"
+            },
+            {
+                "name": "input_materials"
+            },
+            {
+                "name": "fill_material_form",
+				"nextInstruction": "attach_geometry",
+				"nextStep": "init"
+            }
+        ]
+    },
+    {
+        "name": "attach_geometry",
+        "steps":
+        [
+            {
+                "name": "init"
+            },
+            {
+                "name": "input_design"
+            },
+            {
+                "name": "input_design_version"
+            },
+            {
+                "name": "input_drawing"
+            },
+            {
+                "name": "input_drawing_version"
+            }
+        ]
+    },
+    {
+        "name": "create_structure",
+        "steps":
+        [
+            {
+                "name": "init"
+            },
+            {
+                "name": "fill_st_form",
+				"nextInstruction": "assign_project",
+				"nextStep": "init"
+            }
+        ]
+    },
+    {
+        "name": "assign_project",
+        "steps":
+        [
+            {
+                "name": "init"
+            },
+            {
+                "name": "input_project",
+				"nextInstruction": "data_check",
+				"nextStep": "init"
+            }
+        ]
+    },
+    {
+        "name": "data_check",
+        "steps":
+        [
+            {
+                "name": "init",
+				"nextInstruction": "freeze_structure",
+				"nextStep": "init"
+            }
+        ]
+    },
+    {
+        "name": "freeze_structure",
+        "steps":
+        [
+            {
+                "name": "init"
+            },
+            {
+                "name": "freeze_confirm",
+				"nextInstruction": "submit_structure",
+				"nextStep": "init"
+            }
+        ]
+    },
+    {
+        "name": "submit_structure",
+        "steps":
+        [
+            {
+                "name": "init"
+            },
+            {
+                "name": "submit_st_confirm"
+            },
+            {
+                "name": "fix_st"
+            }
+        ]
+    },
+    {
+        "name": "track_st",
+        "steps":
+        [
+            {
+                "name": "init"
+            }
+        ]
+    }
 ]
 `
 )
