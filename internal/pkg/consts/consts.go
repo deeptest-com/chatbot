@@ -32,10 +32,10 @@ var (
 )
 
 var (
-	Instructions = `
+	InstructionDef = `
 [
-    {"name": ”greetings", "steps": []},
-    {"name": ”confirm", "steps": []},
+    {"name": "greetings", "steps": []},
+    {"name": "confirm", "steps": []},
     
     {"name": "create_part", "steps": ["init", "input_part_no", "input_part_name", "show_part_form"]},
     {"name": "attach_material", "steps": ["init", "input_materials", "fill_material_form"]},
@@ -45,7 +45,7 @@ var (
     {"name": "data_check", "steps": ["init"]},
     {"name": "freeze_structure", "steps": ["init", "freeze_confirm", "input_design", "input_drawing", "input_geometry_version"]},
     {"name": "submit_structure", "steps": ["init", "submit_st_confirm", "fix_st"]},
-    {"name": "track_st", "steps": ["init"]
+    {"name": "track_st", "steps": ["init"]}
 ]
 `
 )

@@ -11,6 +11,6 @@ type TcbotModule struct {
 
 func (m *TcbotModule) Party() func(public iris.Party) {
 	return func(party iris.Party) {
-		party.Post("/create_part", m.TcbotCtrl.CreatePart).Name = ""
+		party.Post("/", m.TcbotCtrl.CreatePart).Name = ""
 	}
 }
