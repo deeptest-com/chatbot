@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"github.com/deeptest-com/deeptest-next"
 	v1 "github.com/deeptest-com/deeptest-next/cmd/server/v1/domain"
 	"github.com/deeptest-com/deeptest-next/internal/pkg/consts"
 	"github.com/deeptest-com/deeptest-next/internal/pkg/domain"
@@ -41,6 +42,9 @@ func (s *TcbotService) GetNextStep(instruction consts.TcInstructionType, step st
 	nextInstruction consts.TcInstructionType, nextStep string) {
 
 	instructionDef := s.GetInstructionDef()
+	if instructionDef == nil {
+		return
+	}
 
 	for _, instructionItem := range *instructionDef {
 		if instructionItem.Name == instruction {
@@ -84,9 +88,16 @@ func (s *TcbotService) GetInstructionDef() *domain.InstructionDef {
 		instructionDef := domain.InstructionDef{}
 		s.InstructionDef = &instructionDef
 
-		err := json.Unmarshal([]byte(consts.InstructionDef), s.InstructionDef)
+		bytes, err := deeptest.ReadResData("res/instruction-def.json")
 		if err != nil {
 			_logUtils.Info(err.Error())
+			return nil
+		}
+
+		err = json.Unmarshal(bytes, s.InstructionDef)
+		if err != nil {
+			_logUtils.Info(err.Error())
+			return nil
 		}
 	}
 
