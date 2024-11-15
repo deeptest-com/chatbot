@@ -7,6 +7,7 @@ import (
 	"github.com/deeptest-com/deeptest-next/internal/pkg/libs/arr"
 	"github.com/deeptest-com/deeptest-next/internal/pkg/serve/web/web_iris/middleware"
 	_str "github.com/deeptest-com/deeptest-next/pkg/libs/string"
+	"github.com/kataras/iris/v12/sessions"
 	"strings"
 	"time"
 
@@ -43,6 +44,7 @@ type Party struct {
 // Init
 func Init() *WebServer {
 	app := iris.New()
+
 	if config.CONFIG.System.Tls {
 		app.Use(middleware.LoadTls())
 	}
@@ -62,6 +64,23 @@ func Init() *WebServer {
 	})
 
 	config.SetDefaultAddrAndTimeFormat()
+
+	sessionKeyInHeader := "Tc-Sessionid"
+	sess := sessions.New(sessions.Config{
+		Cookie:       "_tc_sessionid_in_cookie",
+		Expires:      time.Hour * 1,
+		AllowReclaim: false,
+		SessionIDGenerator: func(ctx iris.Context) string {
+			id := ctx.GetHeader(sessionKeyInHeader)
+			if id == "" {
+				id = "123" // _str.Uuid()
+				ctx.Header(sessionKeyInHeader, id)
+			}
+
+			return id
+		},
+	})
+	app.Use(sess.Handler())
 
 	return &WebServer{
 		App:             app,

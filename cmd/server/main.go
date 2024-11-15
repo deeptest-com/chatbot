@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/deeptest-com/deeptest-next/cmd/server/serve"
 	"github.com/deeptest-com/deeptest-next/cmd/server/v1/router"
+	"github.com/deeptest-com/deeptest-next/internal/pkg/config"
 	"github.com/deeptest-com/deeptest-next/internal/pkg/core/auth"
 	"github.com/deeptest-com/deeptest-next/internal/pkg/inits"
 	"github.com/deeptest-com/deeptest-next/internal/pkg/serve/cache"
@@ -38,7 +39,7 @@ func main() {
 
 	cache.Init()
 	err := auth.InitDriver(&auth.Config{
-		DriverType:      "redis",
+		DriverType:      config.CONFIG.System.Cache,
 		HmacSecret:      nil,
 		UniversalClient: cache.Instance(),
 	})

@@ -4,7 +4,6 @@ import (
 	v1 "github.com/deeptest-com/deeptest-next/cmd/server/v1/domain"
 	"github.com/deeptest-com/deeptest-next/internal/server/moudules/service"
 	_domain "github.com/deeptest-com/deeptest-next/pkg/domain"
-
 	"github.com/kataras/iris/v12"
 )
 
@@ -13,7 +12,7 @@ type TcbotCtrl struct {
 	TcbotService *service.TcbotService `inject:""`
 }
 
-func (c *TcbotCtrl) CreatePart(ctx iris.Context) {
+func (c *TcbotCtrl) Index(ctx iris.Context) {
 	req := v1.TcNlpReq{}
 	err := ctx.ReadJSON(&req)
 	if err != nil {
@@ -21,7 +20,7 @@ func (c *TcbotCtrl) CreatePart(ctx iris.Context) {
 		return
 	}
 
-	data, err := c.TcbotService.CreatePart(req)
+	data, err := c.TcbotService.Index(req, ctx)
 	if err != nil {
 		ctx.JSON(_domain.Response{Code: _domain.FailErr.Code, Msg: err.Error()})
 		return

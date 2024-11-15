@@ -90,6 +90,8 @@ type System struct {
 	DbType       string `mapstructure:"db-type" json:"db-type" yaml:"db-type"`
 	TimeFormat   string `mapstructure:"time-format" json:"time-format" yaml:"time-format"`
 
+	Cache string `mapstructure:"cache" json:"cache" yaml:"cache"`
+
 	ChatchatUrl string `mapstructure:"chatchat-url" json:"chatchat-url" yaml:"chatchat-url"`
 	LLmUrl      string `mapstructure:"llm-url" json:"llm-url" yaml:"llm-url"`
 }

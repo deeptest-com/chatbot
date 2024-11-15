@@ -45,7 +45,7 @@ func main() {
 	)
 
 	if err != nil {
-		fmt.Printf("CreatePart error: %v\n", err)
+		fmt.Printf("Index error: %v\n", err)
 		return
 	}
 
