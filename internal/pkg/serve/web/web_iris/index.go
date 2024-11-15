@@ -67,13 +67,13 @@ func Init() *WebServer {
 
 	sessionKeyInHeader := "Tc-Sessionid"
 	sess := sessions.New(sessions.Config{
-		Cookie:       "_tc_sessionid_in_cookie",
+		//Cookie:       "_tc_sessionid_in_cookie",
 		Expires:      time.Hour * 1,
-		AllowReclaim: false,
+		AllowReclaim: true,
 		SessionIDGenerator: func(ctx iris.Context) string {
 			id := ctx.GetHeader(sessionKeyInHeader)
 			if id == "" {
-				id = "123" // _str.Uuid()
+				id = _str.Uuid()
 				ctx.Header(sessionKeyInHeader, id)
 			}
 
