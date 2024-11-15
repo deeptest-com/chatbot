@@ -8,8 +8,6 @@ import (
 	"github.com/deeptest-com/deeptest-next/internal/pkg/domain"
 	_logUtils "github.com/deeptest-com/deeptest-next/pkg/libs/log"
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/sessions"
-	"log"
 	"strings"
 )
 
@@ -18,16 +16,6 @@ type TcbotService struct {
 }
 
 func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpResp, err error) {
-	sess := sessions.Get(ctx)
-
-	statement := strings.ReplaceAll(req.Statement, " ", "_")
-	if statement == "create_part" {
-		sess.Set("name", "aaron")
-	}
-
-	name := sess.GetString("name")
-	log.Println(name)
-
 	nlpResult, _ := s.NlpParse(req)
 
 	if nlpResult.Instruction == "" { // llm not known, use the one in request
