@@ -5,11 +5,11 @@ import (
 	"strings"
 )
 
-// Init initialize mysql config file
+// Init initialize mysql dbConfig file
 func Init() error {
 	var cover string
 	if IsExist() {
-		fmt.Println("Your database config is initialized , reinitialized database will cover your database config.")
+		fmt.Println("Your database dbConfig is initialized , reinitialized database will cover your database dbConfig.")
 		fmt.Println("Did you want to do it ?  [Y/N]")
 		fmt.Scanln(&cover)
 		switch strings.ToUpper(cover) {

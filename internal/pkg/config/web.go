@@ -1,11 +1,11 @@
-package web
+package config
 
 import (
 	"encoding/json"
 	"fmt"
 	"github.com/deeptest-com/deeptest-next/internal/pkg/consts"
 	"github.com/deeptest-com/deeptest-next/internal/pkg/serve/viper_server"
-	_str "github.com/deeptest-com/deeptest-next/pkg/libs/string"
+	"github.com/deeptest-com/deeptest-next/pkg/libs/string"
 	"path/filepath"
 	"strconv"
 
@@ -105,7 +105,6 @@ func SetDefaultAddrAndTimeFormat() {
 	}
 }
 
-// ToStaticUrl
 func ToStaticUrl(uri string) string {
 	path := filepath.Join(CONFIG.System.Addr, CONFIG.System.StaticPrefix, uri)
 	if CONFIG.System.Tls {
@@ -114,27 +113,23 @@ func ToStaticUrl(uri string) string {
 	return filepath.ToSlash(_str.Join("http://", path))
 }
 
-// IsExist config file is exist
 func IsExist() bool {
-	return getViperConfig().IsFileExist()
+	return GetViperConfig().IsFileExist()
 }
 
-// Remove remove config file
 func Remove() error {
-	return getViperConfig().Remove()
+	return GetViperConfig().Remove()
 }
 
-// Recover
 func Recover() error {
 	b, err := json.Marshal(CONFIG)
 	if err != nil {
 		return err
 	}
-	return getViperConfig().Recover(b)
+	return GetViperConfig().Recover(b)
 }
 
-// getViperConfig get viper config
-func getViperConfig() viper_server.ViperConfig {
+func GetViperConfig() viper_server.ViperConfig {
 	maxSize := strconv.FormatInt(CONFIG.FileMaxSize, 10)
 	sessionTimeout := strconv.FormatInt(CONFIG.SessionTimeout, 10)
 	keyLong := strconv.FormatInt(int64(CONFIG.Captcha.KeyLong), 10)

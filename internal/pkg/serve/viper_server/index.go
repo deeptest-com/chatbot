@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/deeptest-com/deeptest-next/internal/pkg/consts"
-	_file "github.com/deeptest-com/deeptest-next/pkg/libs/file"
-	_str "github.com/deeptest-com/deeptest-next/pkg/libs/string"
+	"github.com/deeptest-com/deeptest-next/pkg/libs/file"
+	"github.com/deeptest-com/deeptest-next/pkg/libs/string"
 	"path/filepath"
 
 	"github.com/spf13/viper"
