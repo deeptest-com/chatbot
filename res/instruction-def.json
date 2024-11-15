@@ -21,7 +21,7 @@
         "name": "input_part_name"
       },
       {
-        "name": "show_part_form",
+        "name": "fill_part_form",
         "nextInstruction": "attach_material",
         "nextStep": "init"
       }
@@ -52,21 +52,20 @@
         "name": "init"
       },
       {
-        "name": "input_design"
+        "name": "input_design_and_drawing"
       },
       {
-        "name": "input_design_version"
+        "name": "input_version_or_not"
       },
       {
-        "name": "input_drawing"
-      },
-      {
-        "name": "input_drawing_version"
+        "name": "show_relation_created_msg",
+        "nextInstruction": "create_st",
+        "nextStep": "init"
       }
     ]
   },
   {
-    "name": "create_structure",
+    "name": "create_st",
     "steps":
     [
       {
@@ -87,49 +86,52 @@
         "name": "init"
       },
       {
-        "name": "input_project",
-        "nextInstruction": "data_check",
-        "nextStep": "init"
-      }
-    ]
-  },
-  {
-    "name": "data_check",
-    "steps":
-    [
+        "name": "input_project"
+      },
       {
-        "name": "init",
-        "nextInstruction": "freeze_structure",
+        "name": "input_new_maturity",
+        "nextInstruction": "check_data",
         "nextStep": "init"
       }
     ]
   },
   {
-    "name": "freeze_structure",
+    "name": "check_data",
     "steps":
     [
       {
         "name": "init"
       },
       {
-        "name": "freeze_confirm",
-        "nextInstruction": "submit_structure",
+        "name": "success_or_show_st_form",
+        "nextInstruction": "freeze_st",
         "nextStep": "init"
       }
     ]
   },
   {
-    "name": "submit_structure",
+    "name": "freeze_st",
     "steps":
     [
       {
         "name": "init"
       },
       {
-        "name": "submit_st_confirm"
+        "name": "success_or_show_st_form",
+        "nextInstruction": "submit_st",
+        "nextStep": "init"
+      }
+    ]
+  },
+  {
+    "name": "submit_st",
+    "steps":
+    [
+      {
+        "name": "init"
       },
       {
-        "name": "fix_st"
+        "name": "success_or_show_st_form"
       }
     ]
   },

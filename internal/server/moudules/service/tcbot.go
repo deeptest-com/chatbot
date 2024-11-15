@@ -7,6 +7,7 @@ import (
 	"github.com/deeptest-com/deeptest-next/internal/pkg/consts"
 	"github.com/deeptest-com/deeptest-next/internal/pkg/domain"
 	_logUtils "github.com/deeptest-com/deeptest-next/pkg/libs/log"
+	"strings"
 )
 
 type TcbotService struct {
@@ -71,12 +72,43 @@ func (s *TcbotService) GetNextStep(instruction consts.TcInstructionType, step st
 		}
 	}
 
+	if nextStep == "" {
+		nextInstruction = ""
+	}
+
 	return
 }
 
 func (s *TcbotService) NlpParse(req v1.TcNlpReq) (ret domain.NlpResult, err error) {
-	if req.Statement == "create part" || req.Statement == "create_part" { // TODO: parse by llm
+	statement := strings.ReplaceAll(req.Statement, " ", "_")
+
+	switch statement { // TODO: parse by llm
+	case "create_part":
 		ret.Instruction = consts.TcInstructionCreatePart
+		ret.CurrStep = "init"
+	case "attach_material":
+		ret.Instruction = consts.TcInstructionAttachMaterial
+		ret.CurrStep = "init"
+	case "attach_geometry":
+		ret.Instruction = consts.TcInstructionAttachGeometry
+		ret.CurrStep = "init"
+	case "create_st":
+		ret.Instruction = consts.TcInstructionCreateSt
+		ret.CurrStep = "init"
+	case "assign_project":
+		ret.Instruction = consts.TcInstructionAssignProject
+		ret.CurrStep = "init"
+	case "check_data":
+		ret.Instruction = consts.TcInstructionCheckData
+		ret.CurrStep = "init"
+	case "freeze_st":
+		ret.Instruction = consts.TcInstructionFreezeSt
+		ret.CurrStep = "init"
+	case "submit_st":
+		ret.Instruction = consts.TcInstructionSubmitSt
+		ret.CurrStep = "init"
+	case "track_st":
+		ret.Instruction = consts.TcInstructionTrackSt
 		ret.CurrStep = "init"
 	}
 

@@ -45,8 +45,17 @@ func (e TcInstructionCategory) String() string {
 type TcInstructionType string
 
 const (
-	TcInstructionCreatePart TcInstructionType = "create_part"
-	TcInstructionUnknown    TcInstructionType = "unknown"
+	TcInstructionCreatePart     TcInstructionType = "create_part"
+	TcInstructionAttachMaterial TcInstructionType = "attach_material"
+	TcInstructionAttachGeometry TcInstructionType = "attach_geometry"
+	TcInstructionCreateSt       TcInstructionType = "create_st"
+	TcInstructionAssignProject  TcInstructionType = "assign_project"
+	TcInstructionCheckData      TcInstructionType = "check_data"
+	TcInstructionFreezeSt       TcInstructionType = "freeze_st"
+	TcInstructionSubmitSt       TcInstructionType = "submit_st"
+	TcInstructionTrackSt        TcInstructionType = "track_st"
+
+	TcInstructionUnknown TcInstructionType = "unknown"
 )
 
 func (e TcInstructionType) String() string {
