@@ -25,6 +25,23 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 
 	nlpResult.NextInstruction, nlpResult.NextStep = s.GetNextStep(nlpResult.Instruction, nlpResult.CurrStep)
 
+	var slots []v1.TcNlpSlot
+	if nlpResult.CurrStep == "input_materials" {
+		slots = append(slots, v1.TcNlpSlot{
+			Name:  "materials",
+			Value: []string{"PA6+30GF", "LASW3"},
+		})
+	} else if nlpResult.CurrStep == "input_design_and_drawing" {
+		slots = append(slots, v1.TcNlpSlot{
+			Name:  "design",
+			Value: []string{"BBA-1047285"},
+		})
+		slots = append(slots, v1.TcNlpSlot{
+			Name:  "drawing",
+			Value: []string{"BBA-1047286"},
+		})
+	}
+
 	ret = v1.TcNlpResp{
 		Category:        consts.TcCategoryInstruction,
 		CurrInstruction: nlpResult.Instruction,
@@ -34,7 +51,7 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 		NextInstruction: nlpResult.NextInstruction,
 		NextStep:        nlpResult.NextStep,
 
-		Params: nil,
+		Slots: slots,
 	}
 
 	return

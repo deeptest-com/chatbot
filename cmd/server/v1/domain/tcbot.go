@@ -16,10 +16,18 @@ type TcNlpResp struct {
 	NextInstruction consts.TcInstructionType `json:"nextInstruction,omitempty"`
 	NextStep        string                   `json:"nextStep,omitempty"`
 
-	Params []TcNlpParam `json:"parameters,omitempty"`
+	Slots []TcNlpSlot `json:"slots,omitempty"`
 }
 
-type TcNlpParam struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
+type TcNlpSlot struct {
+	Name  string      `json:"name"`
+	Value interface{} `json:"value"`
+}
+
+type TcCacheReq struct {
+	Key  string      `json:"key"`
+	Data interface{} `json:"data"`
+}
+
+type TcCacheResp struct {
 }
