@@ -26,20 +26,36 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 	nlpResult.NextInstruction, nlpResult.NextStep = s.GetNextStep(nlpResult.Instruction, nlpResult.CurrStep)
 
 	var slots []v1.TcNlpSlot
-	if nlpResult.CurrStep == "input_materials" {
+	if nlpResult.Instruction == "" { // no value, need to parse
+		nlpResult.Instruction = consts.TcInstructionTrackSt
+
+		nlpResult.Instruction = consts.TcInstructionGreetings
+
+	} else if nlpResult.Instruction == consts.TcInstructionConfirm { // parse
 		slots = append(slots, v1.TcNlpSlot{
-			Name:  "materials",
-			Value: []string{"PA6+30GF", "LASW3"},
+			Name:  "result",
+			Value: true,
 		})
-	} else if nlpResult.CurrStep == "input_design_and_drawing" {
+
+	} else if nlpResult.CurrStep == "input_materials" { // parse
 		slots = append(slots, v1.TcNlpSlot{
-			Name:  "design",
-			Value: []string{"BBA-1047285"},
+			Name:  "1",
+			Value: "PA6+30GF",
+		}, v1.TcNlpSlot{
+			Name:  "2",
+			Value: "LASW3",
+		})
+
+	} else if nlpResult.CurrStep == "input_design_and_drawing" { // parse
+		slots = append(slots, v1.TcNlpSlot{
+			Name:  "1",
+			Value: "BBA-1047285",
 		})
 		slots = append(slots, v1.TcNlpSlot{
-			Name:  "drawing",
-			Value: []string{"BBA-1047286"},
+			Name:  "2",
+			Value: "BBA-1047286",
 		})
+
 	}
 
 	ret = v1.TcNlpResp{

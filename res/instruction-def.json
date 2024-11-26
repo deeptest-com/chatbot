@@ -1,11 +1,20 @@
 [
   {
-    "name": "greetings",
-    "steps": []
+    "name": "confirm",
+    "steps": [],
+    "isParse": true
   },
   {
-    "name": "confirm",
-    "steps": []
+    "name": "greetings",
+    "steps":
+    [
+      {
+        "name": "init",
+        "nextInstruction": "create_part",
+        "nextStep": "init"
+      }
+    ],
+    "isParse": true
   },
   {
     "name": "create_part",
@@ -35,7 +44,8 @@
         "name": "init"
       },
       {
-        "name": "input_materials"
+        "name": "input_materials",
+        "isParse": true
       },
       {
         "name": "fill_material_form",
@@ -52,7 +62,8 @@
         "name": "init"
       },
       {
-        "name": "input_design_and_drawing"
+        "name": "input_design_and_drawing",
+        "isParse": true
       },
       {
         "name": "input_version_or_not"
@@ -142,6 +153,7 @@
       {
         "name": "init"
       }
-    ]
+    ],
+    "isParse": true
   }
 ]

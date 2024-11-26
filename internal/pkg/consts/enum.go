@@ -45,6 +45,8 @@ func (e TcInstructionCategory) String() string {
 type TcInstructionType string
 
 const (
+	TcInstructionConfirm        TcInstructionType = "confirm"
+	TcInstructionGreetings      TcInstructionType = "greetings"
 	TcInstructionCreatePart     TcInstructionType = "create_part"
 	TcInstructionAttachMaterial TcInstructionType = "attach_material"
 	TcInstructionAttachGeometry TcInstructionType = "attach_geometry"
