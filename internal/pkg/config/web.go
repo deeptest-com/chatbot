@@ -94,6 +94,7 @@ type System struct {
 
 	ChatchatUrl string `mapstructure:"chatchat-url" json:"chatchat-url" yaml:"chatchat-url"`
 	LLmUrl      string `mapstructure:"llm-url" json:"llm-url" yaml:"llm-url"`
+	IsMock      bool   `mapstructure:"is-mock" json:"is-mock" yaml:"is-mock"`
 }
 
 // SetDefaultAddrAndTimeFormat

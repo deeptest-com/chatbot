@@ -32,43 +32,52 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 
 	nlpResult.NextInstruction, nlpResult.NextStep = s.GetNextStep(nlpResult.Instruction, nlpResult.CurrStep)
 
+	isMock := config.CONFIG.System.IsMock
 	var slots []v1.TcNlpSlot
 	if nlpResult.Instruction == "" { // no value, need to parse
-		//nlpResult.Instruction = consts.TcInstructionGreetings
-		//nlpResult.Instruction = consts.TcInstructionTrackSt
-
-		nlpResult.Instruction, slots = s.ChatCompletion("", req.Statement)
+		if isMock {
+			nlpResult.Instruction = consts.TcInstructionGreetings
+			nlpResult.Instruction = consts.TcInstructionTrackSt
+		} else {
+			nlpResult.Instruction, slots = s.ChatCompletion("", req.Statement)
+		}
 
 	} else if nlpResult.Instruction == consts.TcInstructionConfirm { // parse
-		//slots = append(slots, v1.TcNlpSlot{
-		//	Name:  "result",
-		//	Value: true,
-		//})
-
-		_, slots = s.ChatCompletion(nlpResult.Instruction.String(), req.Statement)
+		if isMock {
+			slots = append(slots, v1.TcNlpSlot{
+				Name:  "result",
+				Value: true,
+			})
+		} else {
+			_, slots = s.ChatCompletion(nlpResult.Instruction.String(), req.Statement)
+		}
 
 	} else if nlpResult.CurrStep == "input_materials" { // parse
-		//slots = append(slots, v1.TcNlpSlot{
-		//	Name:  "1",
-		//	Value: "PA6+30GF",
-		//}, v1.TcNlpSlot{
-		//	Name:  "2",
-		//	Value: "LASW3",
-		//})
-
-		_, slots = s.ChatCompletion(nlpResult.Instruction.String(), req.Statement)
+		if isMock {
+			slots = append(slots, v1.TcNlpSlot{
+				Name:  "1",
+				Value: "PA6+30GF",
+			}, v1.TcNlpSlot{
+				Name:  "2",
+				Value: "LASW3",
+			})
+		} else {
+			_, slots = s.ChatCompletion(nlpResult.CurrStep, req.Statement)
+		}
 
 	} else if nlpResult.CurrStep == "input_design_and_drawing" { // parse
-		//slots = append(slots, v1.TcNlpSlot{
-		//	Name:  "1",
-		//	Value: "BBA-1047285",
-		//})
-		//slots = append(slots, v1.TcNlpSlot{
-		//	Name:  "2",
-		//	Value: "BBA-1047286",
-		//})
-
-		_, slots = s.ChatCompletion(nlpResult.Instruction.String(), req.Statement)
+		if isMock {
+			slots = append(slots, v1.TcNlpSlot{
+				Name:  "1",
+				Value: "BBA-1047285",
+			})
+			slots = append(slots, v1.TcNlpSlot{
+				Name:  "2",
+				Value: "BBA-1047286",
+			})
+		} else {
+			_, slots = s.ChatCompletion(nlpResult.CurrStep, req.Statement)
+		}
 	}
 
 	ret = v1.TcNlpResp{
