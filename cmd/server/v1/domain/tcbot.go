@@ -18,6 +18,10 @@ type TcNlpResp struct {
 
 	Slots []TcNlpSlot `json:"slots,omitempty"`
 }
+type TcNlpResult struct {
+	Instruction consts.TcInstructionType `json:"instruction,omitempty"`
+	Slots       []TcNlpSlot              `json:"slots,omitempty"`
+}
 
 type TcNlpSlot struct {
 	Name  string      `json:"name"`
