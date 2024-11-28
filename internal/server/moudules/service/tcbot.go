@@ -30,10 +30,16 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 		nlpResult.CurrStep = req.CurrStep
 	}
 
-	nlpResult.NextInstruction, nlpResult.NextStep = s.GetNextStep(nlpResult.Instruction, nlpResult.CurrStep)
+	var slots []v1.TcNlpSlot
 
 	isMock := config.CONFIG.System.IsMock
-	var slots []v1.TcNlpSlot
+	isFound := false
+	nlpResult.NextInstruction, nlpResult.NextStep, isFound = s.GetNextStep(nlpResult.Instruction, nlpResult.CurrStep)
+	if !isFound {
+		slots = []v1.TcNlpSlot{{Name: "ERROR", Value: fmt.Sprintf("%s - %s NOT FOUND", nlpResult.Instruction, nlpResult.CurrStep)}}
+		goto RETURN
+	}
+
 	if nlpResult.Instruction == "" { // no value, need to parse
 		if isMock {
 			if strings.Index(req.Statement, "Back Supply status") > -1 {
@@ -43,7 +49,7 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 			}
 
 		} else {
-			nlpResult.Instruction, slots = s.ChatCompletion("", req.Statement)
+			nlpResult.Instruction, slots, err = s.ChatCompletion("", req.Statement)
 		}
 
 	} else if nlpResult.Instruction == consts.TcInstructionConfirm { // parse
@@ -53,7 +59,7 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 				Value: true,
 			})
 		} else {
-			_, slots = s.ChatCompletion(nlpResult.Instruction.String(), req.Statement)
+			_, slots, err = s.ChatCompletion(nlpResult.Instruction.String(), req.Statement)
 		}
 
 	} else if nlpResult.CurrStep == "input_materials" { // parse
@@ -66,10 +72,10 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 				Value: "LASW3",
 			})
 		} else {
-			_, slots = s.ChatCompletion(nlpResult.CurrStep, req.Statement)
+			_, slots, err = s.ChatCompletion(nlpResult.CurrStep, req.Statement)
 		}
 
-	} else if nlpResult.CurrStep == "input_design_and_drawing" { // parse
+	} else if nlpResult.CurrStep == "input_geometry" { // parse
 		if isMock {
 			slots = append(slots, v1.TcNlpSlot{
 				Name:  "1",
@@ -80,9 +86,15 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 				Value: "BBA-1047286",
 			})
 		} else {
-			_, slots = s.ChatCompletion(nlpResult.CurrStep, req.Statement)
+			_, slots, err = s.ChatCompletion(nlpResult.CurrStep, req.Statement)
 		}
 	}
+
+	if err != nil {
+		slots = []v1.TcNlpSlot{{Name: "ERROR", Value: err.Error()}}
+	}
+
+RETURN:
 
 	ret = v1.TcNlpResp{
 		Category:        consts.TcCategoryInstruction,
@@ -100,7 +112,7 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 }
 
 func (s *TcbotService) GetNextStep(instruction consts.TcInstructionType, step string) (
-	nextInstruction consts.TcInstructionType, nextStep string) {
+	nextInstruction consts.TcInstructionType, nextStep string, isFound bool) {
 
 	instructionDef := s.GetInstructionDef()
 	if instructionDef == nil {
@@ -124,6 +136,8 @@ func (s *TcbotService) GetNextStep(instruction consts.TcInstructionType, step st
 					nextStep = instructionItem.Steps[stepIndex+1].Name
 
 				}
+
+				isFound = true
 
 				break
 			}
@@ -196,19 +210,21 @@ func (s *TcbotService) GetInstructionDef() *domain.InstructionDef {
 	return s.InstructionDef
 }
 
-func (s *TcbotService) ChatCompletion(tmpl, content string) (instruction consts.TcInstructionType, slots []v1.TcNlpSlot) {
+func (s *TcbotService) ChatCompletion(tmpl, content string) (
+	instruction consts.TcInstructionType, slots []v1.TcNlpSlot, err error) {
+
 	url := _http.AddSepIfNeeded(config.CONFIG.System.LLmUrl) + "v1/chat/completions"
 	_logUtils.Info("url=" + url)
 
 	if tmpl != "" {
 		pth := filepath.Join("res", "tmpl", tmpl+".txt")
-		bts, err := deeptest.ReadResData(pth)
+		bts, err1 := deeptest.ReadResData(pth)
 
-		if err == nil {
+		if err1 == nil {
 			str := string(bts)
 			content = fmt.Sprintf(str, content)
 		} else {
-			content = err.Error()
+			return
 		}
 	}
 
@@ -243,11 +259,18 @@ func (s *TcbotService) ChatCompletion(tmpl, content string) (instruction consts.
 	respReader := resp.Body
 	respBts, _ := io.ReadAll(respReader)
 
-	result := v1.TcNlpResult{}
-	json.Unmarshal(respBts, &result)
+	llmNlpResp := v1.LlmNlpResp{}
+	json.Unmarshal(respBts, &llmNlpResp)
 
-	instruction = result.Instruction
-	slots = result.Slots
+	if len(llmNlpResp.Choices) > 0 {
+		llmNlpCotent := llmNlpResp.Choices[0].Message.Content
+
+		tcNlpResult := v1.TcNlpResult{}
+		json.Unmarshal([]byte(llmNlpCotent), &tcNlpResult)
+
+		instruction = tcNlpResult.Instruction
+		slots = tcNlpResult.Slots
+	}
 
 	return
 }
