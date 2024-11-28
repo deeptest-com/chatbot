@@ -36,8 +36,12 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 	var slots []v1.TcNlpSlot
 	if nlpResult.Instruction == "" { // no value, need to parse
 		if isMock {
-			nlpResult.Instruction = consts.TcInstructionGreetings
-			nlpResult.Instruction = consts.TcInstructionTrackSt
+			if strings.Index(req.Statement, "Back Supply status") > -1 {
+				nlpResult.Instruction = consts.TcInstructionTrackSt
+			} else {
+				nlpResult.Instruction = consts.TcInstructionGreetings
+			}
+
 		} else {
 			nlpResult.Instruction, slots = s.ChatCompletion("", req.Statement)
 		}
