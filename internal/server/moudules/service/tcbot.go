@@ -36,8 +36,8 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 	isFound := false
 	nlpResult.NextInstruction, nlpResult.NextStep, isFound = s.GetNextStep(nlpResult.Instruction, nlpResult.CurrStep)
 	if !isFound {
-		slots = []v1.TcNlpSlot{{Name: "ERROR", Value: fmt.Sprintf("%s - %s NOT FOUND", nlpResult.Instruction, nlpResult.CurrStep)}}
-		goto RETURN
+		//slots = []v1.TcNlpSlot{{Name: "ERROR", Value: fmt.Sprintf("%s - %s NOT FOUND", nlpResult.Instruction, nlpResult.CurrStep)}}
+		//goto RETURN
 	}
 
 	if nlpResult.Instruction == "" { // no value, need to parse
@@ -94,7 +94,7 @@ func (s *TcbotService) Index(req v1.TcNlpReq, ctx iris.Context) (ret v1.TcNlpRes
 		slots = []v1.TcNlpSlot{{Name: "ERROR", Value: err.Error()}}
 	}
 
-RETURN:
+	//RETURN:
 
 	ret = v1.TcNlpResp{
 		Category:        consts.TcCategoryInstruction,
